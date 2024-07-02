@@ -6,6 +6,7 @@ import Calendar from '../pages/Calendar';
 import Profile from '../pages/Profile';
 import FormElements from '../pages/Form/FormElements';
 import FormLayout from '../pages/Form/FormLayout';
+import ProjetoNovo from '../pages/Projeto/ProjetoNovo';
 import Tables from '../pages/Tables';
 import Settings from '../pages/Settings';
 import Chart from '../pages/Chart';
@@ -31,7 +32,7 @@ export const AppRoutes = () =>  {
       element={
         <>
           <PageTitle title="Doit API - Gerador de LPS" />
-          <FormElements />
+          <ProjetoNovo />
         </>
       }
     />

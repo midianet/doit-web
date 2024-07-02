@@ -2,11 +2,12 @@ import React, { useState, ReactNode } from 'react';
 import Header from '../components/Header/index';
 import Sidebar from '../components/Sidebar/index';
 import Alert from '../components/Alert/Alert';
-import { useMessageContext } from '../contexts';
+import { useAppContext } from '../contexts';
+import Loader from '../common/Loader';
 
 const DefaultLayout: React.FC<{ children: ReactNode }> = ({ children }) => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  const {message} = useMessageContext();
+  const {message} = useAppContext();
 
   return (
     <div className="dark:bg-boxdark-2 dark:text-bodydark">
@@ -24,6 +25,7 @@ const DefaultLayout: React.FC<{ children: ReactNode }> = ({ children }) => {
 
           {/* <!-- ===== Main Content Start ===== --> */}
           <main>
+            <Loader/>            
             <div className="mx-auto max-w-screen-2xl p-4 md:p-6 2xl:p-10">
               <div>
                 {message && <Alert message={message} />}

@@ -8,7 +8,7 @@ const options: ApexOptions = {
     position: 'top',
     horizontalAlign: 'left',
   },
-  colors: ['#3C50E0', '#80CAEE'],
+  colors: ['#3C50E0', '#80CAEE', '#8dbf9a'],
   chart: {
     fontFamily: 'Satoshi, sans-serif',
     height: 335,
@@ -45,7 +45,7 @@ const options: ApexOptions = {
     },
   ],
   stroke: {
-    width: [2, 2],
+    width: [2, 2, 2],
     curve: 'straight',
   },
   // labels: {
@@ -70,7 +70,7 @@ const options: ApexOptions = {
   markers: {
     size: 4,
     colors: '#fff',
-    strokeColors: ['#3056D3', '#80CAEE'],
+    strokeColors: ['#3056D3', '#80CAEE', '#126628'],
     strokeWidth: 3,
     strokeOpacity: 0.9,
     strokeDashArray: 0,
@@ -127,13 +127,16 @@ const ChartOne: React.FC = () => {
     series: [
       {
         name: 'Projetos Criados',
-        data: [23, 11, 22, 27, 13, 22, 37, 21, 44, 22, 30, 45],
+        data: [30, 25, 23, 35, 44, 50, 40, 63, 68, 52, 30, 70],
       },
-
       {
         name: 'Projetos Implantados',
-        data: [30, 25, 36, 30, 45, 35, 64, 52, 59, 36, 39, 51],
+        data: [25, 22, 22, 30, 33, 40, 30, 59, 60, 45, 28, 65],
       },
+      {
+        name: 'Projetos em Produção',
+        data: [23, 20, 21, 20, 30, 35, 30, 53, 54, 40, 10, 60],
+      },      
     ],
   });
 
@@ -153,7 +156,7 @@ const ChartOne: React.FC = () => {
               <span className="block h-2.5 w-full max-w-2.5 rounded-full bg-primary"></span>
             </span>
             <div className="w-full">
-              <p className="font-semibold text-primary">Total Criado</p>
+              <p className="font-semibold text-primary">Projetos Criados</p>
     {/*           <p className="text-sm font-medium">01-01-2024 - 01-07-2024</p> */}
             </div>
           </div>
@@ -162,10 +165,23 @@ const ChartOne: React.FC = () => {
               <span className="block h-2.5 w-full max-w-2.5 rounded-full bg-secondary"></span>
             </span>
             <div className="w-full">
-              <p className="font-semibold text-secondary">Total Implantado</p>
+              <p className="font-semibold text-secondary">Projetos Implantados</p>
 {/*               <p className="text-sm font-medium">01-01-2024 - 01-07-2024</p> */}
             </div>
           </div>
+
+
+          <div className="flex min-w-47.5">
+            <span className="mt-1 mr-2 flex h-4 w-full max-w-4 items-center justify-center rounded-full border border-green-800">
+              <span className="block h-2.5 w-full max-w-2.5 rounded-full bg-green-800"></span>
+            </span>
+            <div className="w-full">
+              <p className="font-semibold text-green-800">Projetos Implantados</p>
+{/*               <p className="text-sm font-medium">01-01-2024 - 01-07-2024</p> */}
+            </div>
+          </div>
+
+
         </div>
 {/*         <div className="flex w-full max-w-45 justify-end">
           <div className="inline-flex items-center rounded-md bg-whiter p-1.5 dark:bg-meta-4">
