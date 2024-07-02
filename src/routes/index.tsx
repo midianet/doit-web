@@ -1,7 +1,7 @@
 
 import { Routes, Route} from 'react-router-dom';
 import PageTitle from '../components/PageTitle';
-import ECommerce from '../pages/Dashboard/ECommerce';
+import ECommerce from '../pages/Dashboard/Principal';
 import Calendar from '../pages/Calendar';
 import Profile from '../pages/Profile';
 import FormElements from '../pages/Form/FormElements';
@@ -21,8 +21,26 @@ export const AppRoutes = () =>  {
       index
       element={
         <>
-          <PageTitle title="eCommerce Dashboard | TailAdmin - Tailwind CSS Admin Dashboard Template" />
+          <PageTitle title="Doit API - Gerador de LPS" />
           <ECommerce />
+        </>
+      }
+    />
+    <Route
+      path="/projetos/novo"
+      element={
+        <>
+          <PageTitle title="Doit API - Gerador de LPS" />
+          <FormElements />
+        </>
+      }
+    />
+    <Route
+      path="/projetos/lista"
+      element={
+        <>
+          <PageTitle title="Doit API - Gerador de LPS" />
+          <FormLayout />
         </>
       }
     />
@@ -30,7 +48,7 @@ export const AppRoutes = () =>  {
       path="/calendar"
       element={
         <>
-          <PageTitle title="Calendar | TailAdmin - Tailwind CSS Admin Dashboard Template" />
+          <PageTitle title="Doit API - Gerador de LPS" />
           <Calendar />
         </>
       }
@@ -39,7 +57,7 @@ export const AppRoutes = () =>  {
       path="/profile"
       element={
         <>
-          <PageTitle title="Profile | TailAdmin - Tailwind CSS Admin Dashboard Template" />
+          <PageTitle title="Doit API - Gerador de LPS" />
           <Profile />
         </>
       }
@@ -48,7 +66,7 @@ export const AppRoutes = () =>  {
       path="/forms/form-elements"
       element={
         <>
-          <PageTitle title="Form Elements | TailAdmin - Tailwind CSS Admin Dashboard Template" />
+          <PageTitle title="Doit API - Gerador de LPS" />
           <FormElements />
         </>
       }
@@ -57,7 +75,7 @@ export const AppRoutes = () =>  {
       path="/forms/form-layout"
       element={
         <>
-          <PageTitle title="Form Layout | TailAdmin - Tailwind CSS Admin Dashboard Template" />
+          <PageTitle title="Doit API - Gerador de LPS" />
           <FormLayout />
         </>
       }
@@ -66,7 +84,7 @@ export const AppRoutes = () =>  {
       path="/tables"
       element={
         <>
-          <PageTitle title="Tables | TailAdmin - Tailwind CSS Admin Dashboard Template" />
+          <PageTitle title="Doit API - Gerador de LPS" />
           <Tables />
         </>
       }
@@ -75,7 +93,7 @@ export const AppRoutes = () =>  {
       path="/settings"
       element={
         <>
-          <PageTitle title="Settings | TailAdmin - Tailwind CSS Admin Dashboard Template" />
+          <PageTitle title="Doit API - Gerador de LPS" />
           <Settings />
         </>
       }
@@ -84,7 +102,7 @@ export const AppRoutes = () =>  {
       path="/chart"
       element={
         <>
-          <PageTitle title="Basic Chart | TailAdmin - Tailwind CSS Admin Dashboard Template" />
+          <PageTitle title="Doit API - Gerador de LPS" />
           <Chart />
         </>
       }
@@ -93,7 +111,7 @@ export const AppRoutes = () =>  {
       path="/ui/alerts"
       element={
         <>
-          <PageTitle title="Alerts | TailAdmin - Tailwind CSS Admin Dashboard Template" />
+          <PageTitle title="Doit API - Gerador de LPS" />
           <Alerts />
         </>
       }
@@ -102,7 +120,7 @@ export const AppRoutes = () =>  {
       path="/ui/buttons"
       element={
         <>
-          <PageTitle title="Buttons | TailAdmin - Tailwind CSS Admin Dashboard Template" />
+          <PageTitle title="Doit API - Gerador de LPS" />
           <Buttons />
         </>
       }
@@ -111,7 +129,7 @@ export const AppRoutes = () =>  {
       path="/auth/signin"
       element={
         <>
-          <PageTitle title="Signin | TailAdmin - Tailwind CSS Admin Dashboard Template" />
+          <PageTitle title="Doit API - Gerador de LPS" />
           <SignIn />
         </>
       }
@@ -120,7 +138,7 @@ export const AppRoutes = () =>  {
       path="/auth/signup"
       element={
         <>
-          <PageTitle title="Signup | TailAdmin - Tailwind CSS Admin Dashboard Template" />
+          <PageTitle title="Doit API - Gerador de LPS" />
           <SignUp />
         </>
       }

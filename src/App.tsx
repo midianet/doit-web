@@ -1,14 +1,14 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { ReactKeycloakProvider} from "@react-keycloak/web";
-// import Loader from './common/Loader';
+import Loader from './common/Loader';
 import DefaultLayout from './layout/DefaultLayout';
 import { keycloak } from "./config/keycloak";
 import { AppRoutes } from './routes';
 import { MessageProvider } from './contexts';
 
 function App() {
-  // const [loading, setLoading] = useState<boolean>(true);
+  const [loading, setLoading] = useState<boolean>(true);
   const { pathname } = useLocation();
   const onKeycloakEvent = (event: any, error: any) => console.log('onKeycloakEvent', event, error)
 
@@ -16,9 +16,9 @@ function App() {
     window.scrollTo(0, 0);
   }, [pathname]);
 
-  // useEffect(() => {
-  //   setTimeout(() => setLoading(false), 1000);
-  // }, []);
+/*    useEffect(() => {
+     setTimeout(() => setLoading(false), 1000);
+   }, []); */
 
   // return loading ? (
   //   <Loader />
