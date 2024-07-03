@@ -1,8 +1,9 @@
-import { useState } from 'react';
+interface SwitcherProps {
+  enabled: boolean;
+  setEnabled: (enabled: boolean) => void;
+}
 
-const SwitcherThree = () => {
-  const [enabled, setEnabled] = useState(false);
-
+const Switcher: React.FC<SwitcherProps> = ({enabled, setEnabled}) => {
   return (
     <div>
       <label
@@ -14,9 +15,7 @@ const SwitcherThree = () => {
             type="checkbox"
             id="toggle3"
             className="sr-only"
-            onChange={() => {
-              setEnabled(!enabled);
-            }}
+            onChange={() => {setEnabled(!enabled)}}
           />
           <div className="block h-8 w-14 rounded-full bg-meta-9 dark:bg-[#5A616B]"></div>
           <div
@@ -63,4 +62,4 @@ const SwitcherThree = () => {
   );
 };
 
-export default SwitcherThree;
+export default Switcher;

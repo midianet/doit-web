@@ -7,9 +7,9 @@ import { MessageType, useAppContext } from '../../contexts';
 const ECommerce: React.FC = () => {
   const { showMessage } = useAppContext()
   
-  useEffect( () =>{
+/*   useEffect( () =>{
     showMessage({message: "Deu bom...", level: MessageType.Success})
-  },[])
+  },[]) */
   
   return (
     <>

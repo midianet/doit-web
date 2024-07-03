@@ -34,7 +34,7 @@ export default class TemplateService {
     }
 
     async list(): Promise<Page<Template>> {
-        return fetch('http://localhost:8080/templates',{
+        return fetch('http://doit-api-sandbox-arq-d.dev.paas.cnpbr.intranet/templates',{
             headers: {'Authorization': `Bearer ${this.auth.keycloak.token}`}
         })
         .then(response => {
@@ -45,8 +45,8 @@ export default class TemplateService {
         .catch(error => {throw error})
     }
 
-    async findById(id:number): Promise<Template> {
-        return fetch(`http://localhost:8080/templates/${id}`,{
+    async findById(id:string): Promise<Template> {
+        return fetch(`http://doit-api-sandbox-arq-d.dev.paas.cnpbr.intranet/templates/${id}`,{
             headers: {'Authorization': `Bearer ${this.auth.keycloak.token}`}
         })
         .then((response) => {

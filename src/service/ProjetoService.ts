@@ -2,7 +2,7 @@ import queryString from 'query-string'
 import { useKeycloak } from '@react-keycloak/web';
 import { Page, ErrorResponse } from "./Types"
 
-export interface ProjetoProps{
+export interface ProjetoPropriedade{
     nome: string,
     valor: string|boolean
 }
@@ -11,8 +11,13 @@ export interface Projeto{
     nome: string
     justificativa: string
     temporario: boolean
-    template: number
-    propriedades: ProjetoProps[]
+    template: string
+    repositorio: string
+    pipeline: string
+    registry: string
+    deploy: string
+    namespace: string
+    propriedades: ProjetoPropriedade[]
 }
 
 export interface Template {
@@ -30,7 +35,7 @@ export default class ProjetoService {
     auth = useKeycloak()
 
     async create(projeto: Projeto): Promise<void> {
-        return fetch('http://localhost:8080/projetos',{
+        return fetch('http://doit-api-sandbox-arq-d.dev.paas.cnpbr.intranet/projetos',{
             method: "POST",
             headers: {
                 'Content-Type': 'application/json',
@@ -53,7 +58,7 @@ export default class ProjetoService {
             ...page && { page },
             ...size && { size },
         })
-        const response = await fetch(`http://localhost:8080/projetos?${queryParams}`,{
+        const response = await fetch(`http://doit-api-sandbox-arq-d.dev.paas.cnpbr.intranet/projetos?${queryParams}`,{
             headers:{'Authorization': `Bearer ${this.auth.keycloak.token}`}
         })
         if (response.ok) return response.json()

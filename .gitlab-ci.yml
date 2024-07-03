@@ -1,0 +1,120 @@
+  stages:
+    - prepare
+    #  - sonar
+    - package
+    - deploy
+
+  variables:
+    APP_NAME: "doit-web"
+    DOCKER_IMAGE_NAME: "${NEXUS_URL}/${APP_NAME}"
+    NODE_IMAGE: "node:latest"
+    ENV_DEV_PREFIX: "dev"
+    ENV_HOMO_PREFIX: "hom"
+    ENV_PROD_PREFIX: "hom"
+    ENV_URL_PREFIX: ""
+    APP_URL_SUFIX: "paas.cnpbr.intranet"
+    APP_NAMESPACE: "sandbox-arq"
+    APP_VERSION: ""
+
+  prepare:
+    stage: prepare
+    image: alpine:latest
+    script:
+      - CURRENT_BRANCH=$CI_COMMIT_REF_NAME
+      - echo "Branch atual - $CURRENT_BRANCH"
+      - |
+        if [[ $CURRENT_BRANCH == develop ]]; then
+          APP_VERSION="latest"
+          APP_NAMESPACE="${APP_NAMESPACE}-d"
+          ENV_URL_PREFIX="${ENV_DEV_PREFIX}"
+        elif [[ $CURRENT_BRANCH == release/* || $CURRENT_BRANCH == hotfix/* ]]; then
+          APP_VERSION=${CURRENT_BRANCH#*/}
+          APP_NAMESPACE="${APP_NAMESPACE}-h"
+          ENV_URL_PREFIX="${ENV_HOMO_PREFIX}"
+        elif [[ $CURRENT_BRANCH == master ]]; then
+            CURRENT_BRANCH=`echo $CI_COMMIT_TITLE | cut -d"'" -f 2`
+            if [ -z "$CURRENT_BRANCH" ]; then
+              echo "Master necessita vir de um merge request."
+              exit 1
+            else
+              APP_VERSION=${CURRENT_BRANCH#*/}
+              APP_NAMESPACE="${APP_NAMESPACE}-p"
+              ENV_URL_PREFIX="${ENV_PROD_PREFIX}"
+            fi
+        else
+          echo "Branch atual não é release/*, hotfix/* ou master. "
+          exit 1
+        fi
+      - APP_URL="doit-${APP_NAMESPACE}.${ENV_URL_PREFIX}.${APP_URL_SUFIX}"
+      - echo $APP_NAMESPACE > namespace-ci.txt
+      - echo $APP_VERSION > version-ci.txt
+      - echo $APP_URL > url-ci.txt
+      - echo "Versão - $APP_VERSION"
+      - echo "Namespace - $APP_NAMESPACE"
+      - echo "URL - $APP_URL"
+    artifacts:
+      paths:
+        - version-ci.txt
+        - namespace-ci.txt
+        - url-ci.txt
+    except:
+      - /^feature\/.*/
+
+  #sonar-check:
+  #  stage: sonar
+  #  image:
+  #    name: sonarsource/sonar-scanner-cli:latest
+  #    entrypoint: [""]
+  #  variables:
+  #    SONAR_USER_HOME: "${CI_PROJECT_DIR}/.sonar"  # Defines the location of the analysis task cache
+  #    GIT_DEPTH: "0"  # Tells git to fetch all the branches of the project, required by the analysis task
+  #  cache:
+  #    key: "${CI_JOB_NAME}"
+  #    paths:
+  #      - .sonar/cache
+  #  before_script:
+  #  #script:
+  #    - cp ${CNP_CERT} /tmp/cnp.pem
+  #    - cat /tmp/cnp.pem
+  #    - keytool -import -alias sonar -storepass changeit -noprompt -keystore /usr/lib/jvm/java-17-openjdk/lib/security/cacerts #-file /tmp/cnp.pem
+  #  script:
+  #    - sonar-scanner
+  #  allow_failure: true
+  #  only:
+  #    - develop
+
+  package-job:
+    image: docker:latest
+    stage: package
+    services:
+      - name: docker:dind
+        command: ["--insecure-registry=nexus.cnpbr.intranet:8082"]
+    variables:
+      DOCKER_DRIVER: overlay2
+      DOCKER_TLS_CERTDIR: ""
+    before_script:
+      - echo "$NEXUS_PASSWORD" | docker login $NEXUS_URL --username $NEXUS_LOGIN --password-stdin
+      - export APP_VERSION=$(cat version-ci.txt)
+    script:
+      - docker build -t $DOCKER_IMAGE_NAME:$APP_VERSION .
+      - docker push $DOCKER_IMAGE_NAME:$APP_VERSION
+    except:
+      - /^feature\/.*/
+      - master
+
+  deploy-job:
+    image: nexus.cnpbr.intranet:8082/devops-kube-homo:4.0.0 #corrigir
+    stage: deploy
+    before_script:
+      - export APP_VERSION=$(cat version-ci.txt)
+      - export APP_URL=$(cat url-ci.txt)
+      - export APP_NAMESPACE=$(cat namespace-ci.txt)
+      - sed -i "s/\[VERSION_CI\]/$APP_VERSION/g" .kube/deploy.yml
+      - sed -i "s/\[URL_CI\]/$APP_URL/g" .kube/route.yml
+    script:
+      - kube apply  -n $APP_NAMESPACE -f .kube/service.yml
+      - kube apply  -n $APP_NAMESPACE -f .kube/route.yml
+      - kube delete -n $APP_NAMESPACE -f .kube/deploy.yml --ignore-not-found=true
+      - kube create -n $APP_NAMESPACE -f .kube/deploy.yml
+    except:
+      - /^feature\/.*/
